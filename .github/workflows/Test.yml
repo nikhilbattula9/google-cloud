@@ -1,5 +1,5 @@
 on:
-  push : 
+  pull_request : 
     branches : 
       - main
 
@@ -31,4 +31,15 @@ jobs:
           ls ${{ github.workspace }}
           echo " ${{ github.event.number }} "
           echo "${{ github.event.pull_request.number }}"
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+          echo "${{ github.event.issue.number }}"
+
+            - name: Get Pull Request Number
+      - id: pr
+        run: |
+        echo "::set-output name=pull_request_number::$(gh pr view --json number -q .number || echo "")"
+        echo "test=hello" >> "$GITHUB_OUTPUT"
+      - name : PR Number
+      - run: |
+          echo "🍏 This job's status is ${{ job.status }}."
+          echo " ${{ steps.pr.outputs.pull_request_number }}"
+          echo "${{ steps.pr.outputs.test}}"
