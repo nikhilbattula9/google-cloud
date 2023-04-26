@@ -39,7 +39,7 @@ jobs:
           echo "::set-output name=pull_request_number::$(gh pr view --json number -q .number || echo "")"
           echo "test=hello" >> "$GITHUB_OUTPUT"
       - name : PR Number
-      - run: |
+        run: |
           echo "🍏 This job's status is ${{ job.status }}."
           echo " ${{ steps.pr.outputs.pull_request_number }}"
           echo "${{ steps.pr.outputs.test}}"
