@@ -1,5 +1,4 @@
 on:
-
   push : 
     branches : 
       - main
@@ -32,6 +31,6 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-          echo "${{ github.event.number }}"
+          echo " ${{ github.event.number }} "
           echo "${{ github.event.pull_request.head.sha }}"
       - run: echo "🍏 This job's status is ${{ job.status }}."
