@@ -30,5 +30,5 @@ jobs:
         run: |
           ls ${{ github.workspace }}
           echo " ${{ github.event.number }} "
-          echo "${{ github.event.pull_request.head.sha }}"
+          echo "${{ github.event.pull_request.number }}"
       - run: echo "🍏 This job's status is ${{ job.status }}."
