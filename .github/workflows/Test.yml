@@ -36,8 +36,8 @@ jobs:
             - name: Get Pull Request Number
       - id: pr
         run: |
-        echo "::set-output name=pull_request_number::$(gh pr view --json number -q .number || echo "")"
-        echo "test=hello" >> "$GITHUB_OUTPUT"
+          echo "::set-output name=pull_request_number::$(gh pr view --json number -q .number || echo "")"
+          echo "test=hello" >> "$GITHUB_OUTPUT"
       - name : PR Number
       - run: |
           echo "🍏 This job's status is ${{ job.status }}."
