@@ -1,5 +1,5 @@
 ---
-name: Build/push Image to GCR
+name: Build/push Image to GCP AR
 on:
   pull_request:
     branches: 
