@@ -8,6 +8,7 @@ on:
 env:
   IMAGE_NAME: app
   PROJECT_ID: ${{ secrets.PROJECT_ID }}
+  GIT_TAG: 1.0.0
 
 jobs:
   Build-And-Push-Image:
@@ -41,6 +42,8 @@ jobs:
       # env:
       #   GIT_TAG: ${{ steps.increment-git-tag.outputs.git-tag }} ${{ github.event.pull_request.number }}
       run: |
+        docker push gcr.io/$PROJECT_ID/$IMAGE_NAME:latest
+        docker push gcr.io/$PROJECT_ID/$IMAGE_NAME:${{ env.GIT_TAG }}
         docker tag $IMAGE_NAME:latest gcr.io/$PROJECT_ID/$IMAGE_NAME:latest 
         docker push gcr.io/$PROJECT_ID/$IMAGE_NAME:latest
 
@@ -50,5 +53,8 @@ jobs:
       #   GIT_TAG: ${{ steps.increment-git-tag.outputs.git-tag }}
       run: |
         docker images
-        docker tag $IMAGE_NAME:latest  northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/images/$IMAGE_NAME:latest
-        docker push northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/dhakshina-nine/$IMAGE_NAME:latest
+        docker tag $IMAGE_NAME:latest northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/images/$IMAGE_NAME:latest
+        docker tag $IMAGE_NAME:latest northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/images/$IMAGE_NAME:$GIT_TAG
+        docker push northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/images/$IMAGE_NAME:latest
+        docker push northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/images/$IMAGE_NAME:$GIT_TAG
+
