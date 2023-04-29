@@ -24,8 +24,8 @@ jobs:
         credentials_json: ${{ secrets.ACCESS_KEY }}
 
 
-    - name: Build Docker Image
-      run: docker build -t $IMAGE_NAME:${{ env.GIT_TAG }} .
+    # - name: Build Docker Image
+    #   run: docker build -t $IMAGE_NAME:${{ env.GIT_TAG }} .
 
     # - name: Automatic Tagging of Releases
     #   id: increment-git-tag
@@ -51,7 +51,7 @@ jobs:
       #   GIT_TAG: ${{ steps.increment-git-tag.outputs.git-tag }}
       run: |
         docker images
-        sudo usermod -a -G docker $USER
-        docker tag $IMAGE_NAME:${{ env.GIT_TAG }} northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/images/$IMAGE_NAME:${{ env.GIT_TAG }}
+        docker build -t $IMAGE_NAME:${{ env.GIT_TAG }} .
+        docker tag $IMAGE_NAME northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/images/$IMAGE_NAME:${{ env.GIT_TAG }}
         docker push northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/dhakshina-nine/$IMAGE_NAME:${{ env.GIT_TAG }}
 
