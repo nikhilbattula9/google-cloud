@@ -42,9 +42,7 @@ jobs:
       # env:
       #   GIT_TAG: ${{ steps.increment-git-tag.outputs.git-tag }} ${{ github.event.pull_request.number }}
       run: |
-        docker tag $IMAGE_NAME:latest gcr.io/$PROJECT_ID/$IMAGE_NAME:latest
-        docker tag $IMAGE_NAME:latest gcr.io/$PROJECT_ID/$IMAGE_NAME:${{ env.GIT_TAG }}
-        docker push gcr.io/$PROJECT_ID/$IMAGE_NAME:latest
+        docker tag $IMAGE_NAME:${{ env.GIT_TAG }} gcr.io/$PROJECT_ID/$IMAGE_NAME:${{ env.GIT_TAG }}
         docker push gcr.io/$PROJECT_ID/$IMAGE_NAME:${{ env.GIT_TAG }}
 
 
