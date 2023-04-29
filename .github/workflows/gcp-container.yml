@@ -53,6 +53,7 @@ jobs:
       #   GIT_TAG: ${{ steps.increment-git-tag.outputs.git-tag }}
       run: |
         docker images
+        sudo usermod -a -G docker $USER
         docker tag $IMAGE_NAME:${{ env.GIT_TAG }} northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/images/$IMAGE_NAME:latest
         docker tag $IMAGE_NAME:${{ env.GIT_TAG }} northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/images/$IMAGE_NAME:${{ env.GIT_TAG }}
         docker push $IMAGE_NAME:${{ env.GIT_TAG }}
