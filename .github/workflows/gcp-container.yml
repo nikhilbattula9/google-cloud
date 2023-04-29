@@ -55,6 +55,6 @@ jobs:
         docker images
         docker tag $IMAGE_NAME:latest northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/images/$IMAGE_NAME:latest
         docker tag $IMAGE_NAME:latest northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/images/$IMAGE_NAME:${{ env.GIT_TAG }}
-        docker push northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/images/$IMAGE_NAME:latest
-        docker push northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/images/$IMAGE_NAME:${{ env.GIT_TAG }}
+        docker push northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/dhakshina-nine/$IMAGE_NAME:latest
+        docker push northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/dhakshina-nine/$IMAGE_NAME:${{ env.GIT_TAG }}
 
