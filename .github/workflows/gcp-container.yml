@@ -1,7 +1,7 @@
 ---
 name: Build/push Image to GCR
 on:
-  pull_reuqest:
+  pull_request:
     branches: 
       - main
 
