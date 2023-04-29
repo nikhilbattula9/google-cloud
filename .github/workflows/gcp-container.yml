@@ -34,14 +34,14 @@ jobs:
 
 
     - name: Configure Docker Client
-      run: | 
+      run: |-
         gcloud auth configure-docker --quiet
         gcloud auth configure-docker  northamerica-northeast2-docker.pkg.dev --quiet
 
     - name: Push Docker Image to Container Registry (GCR)
       # env:
       #   GIT_TAG: ${{ steps.increment-git-tag.outputs.git-tag }} ${{ github.event.pull_request.number }}
-      run: |
+      run: |-
         docker tag $IMAGE_NAME:${{ env.GIT_TAG }} gcr.io/$PROJECT_ID/$IMAGE_NAME:${{ env.GIT_TAG }}
         docker push gcr.io/$PROJECT_ID/$IMAGE_NAME:${{ env.GIT_TAG }}
 
@@ -49,8 +49,8 @@ jobs:
     - name: Push Docker Image to Artifact Registry
       # env:
       #   GIT_TAG: ${{ steps.increment-git-tag.outputs.git-tag }}
-      run: |
+      run: |-
         docker images
-        docker tag $IMAGE_NAME:${{ env.GIT_TAG }} northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/images/$IMAGE_NAME:${{ env.GIT_TAG }}
-        docker push northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/dhakshina-nine/$IMAGE_NAME:${{ env.GIT_TAG }}
+        docker tag $IMAGE_NAME:${{ env.GIT_TAG }}  northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/images/$IMAGE_NAME:2.0
+        docker push northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/dhakshina-nine/$IMAGE_NAME:2.0
 
