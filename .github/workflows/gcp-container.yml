@@ -49,7 +49,7 @@ jobs:
         docker push gcr.io/$PROJECT_ID/$IMAGE_NAME:latest
 
   Push-Image-AR: 
-    name: Push Image To GCR
+    name: Push Image To AR
     runs-on: ubuntu-latest
     needs: Push-Image-GCR
     steps:
