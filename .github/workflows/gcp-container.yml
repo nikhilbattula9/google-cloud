@@ -54,6 +54,7 @@ jobs:
     name: Push Image To GCR
     runs-on: ubuntu-latest
     needs: Push-Image-GCR
+    steps:
     - name: Push Docker Image to Artifact Registry
       # env:
       #   GIT_TAG: ${{ steps.increment-git-tag.outputs.git-tag }}
