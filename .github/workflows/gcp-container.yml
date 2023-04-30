@@ -40,7 +40,7 @@ jobs:
 
     - name: Push Docker Image to Container Registry (GCR)
       run: |
-        docker tag $IMAGE_NAME:${{ env.GIT_TAG }} gcr.io/$PROJECT_ID/$IMAGE_NAME:${{ github.sha }}
+        docker tag $IMAGE_NAME:${{ github.sha }} gcr.io/$PROJECT_ID/$IMAGE_NAME:${{ github.sha }}
         docker push gcr.io/$PROJECT_ID/$IMAGE_NAME:${{ github.sha }}
 
 
