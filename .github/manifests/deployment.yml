@@ -62,8 +62,8 @@ spec:
 #               name: python-app-service
 #               port: 
 #                 number: 8080
-#           # path: /
-#           # pathType: ImplementationSpecific
+#           path: /
+          pathType: ImplementationSpecific
 
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -81,5 +81,5 @@ spec:
               name: python-app-service
               port: 
                 number: 8080
-            path: /
-            pathType: ImplementationSpecific
+          path: /
+          pathType: ImplementationSpecific
