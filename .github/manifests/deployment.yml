@@ -66,9 +66,9 @@ spec:
 #           # pathType: ImplementationSpecific
 
 apiVersion: networking.k8s.io/v1
-kind: TestIngress
+kind: Ingress
 metadata:
-  name: name
+  name: TestIngress
   annotations:
     kubernetes.io/ingress.class: "nginx"
 spec:
