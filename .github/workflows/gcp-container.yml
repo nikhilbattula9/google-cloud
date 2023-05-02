@@ -3,12 +3,12 @@ name: Build/push Image AR/ Deploy to GKE
 on:
   pull_request:
     branches: 
-      - main
+      - main 
 
 env:
   IMAGE_NAME: app
   PROJECT_ID: ${{ secrets.PROJECT_ID }}
-  GIT_TAG: 1.0.0
+  # GIT_TAG: 1.0.0
   GKE_CLUSTER: autopilot-cluster-9   
   GKE_ZONE: northamerica-northeast2
   DEPLOYMENT_NAME: app-deploy
