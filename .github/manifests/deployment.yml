@@ -73,7 +73,7 @@ metadata:
     kubernetes.io/ingress.class: "nginx"
 spec:
   rules:
-    - host: appbnb.com
+    - host: apppsnb.com
       http:
         paths:
         - backend:
