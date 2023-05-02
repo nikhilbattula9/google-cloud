@@ -50,9 +50,15 @@ jobs:
         docker image tag $IMAGE_NAME:${{ github.sha }}  northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/dhakshina-nine/$IMAGE_NAME:${{ github.sha }}
         docker push northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/dhakshina-nine/$IMAGE_NAME:${{ github.sha }}
 
-    - name: Get GKE Creds 
-      run: |
-        gcloud container clusters get-credentials $GKE_CLUSTER --region $GKE_ZONE --project $PROJECT_NAME
+    # - name: Get GKE Creds 
+    #   run: |
+    #     gcloud container clusters get-credentials $GKE_CLUSTER --region $GKE_ZONE --project $PROJECT_NAME
+
+    - id: 'get-credentials'
+      uses: 'google-github-actions/get-gke-credentials@v1'
+      with:
+        cluster_name: {{ env.GKE_CLUSTER }}
+        location: {{ env.GKE_ZONE }}
 
     - name: Deploy
       run: |
