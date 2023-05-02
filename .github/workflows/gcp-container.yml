@@ -62,5 +62,5 @@ jobs:
 
     - name: Deploy
       run: |
-        sed -i -e 's/GITHUB_SHA/'"$GITHUB_SHA"'/' ${{ github.workspace }}/.github/manifests/deployment.yml
+        sed -i -e 's/GITHUB_SHA/'"${{ github.sha }}"'/' ${{ github.workspace }}/.github/manifests/deployment.yml
         kubectl apply -f ${{ github.workspace }}/.github/manifests/deployment.yml
