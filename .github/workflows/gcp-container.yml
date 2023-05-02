@@ -31,11 +31,6 @@ jobs:
     - name: Build Docker Image
       run: docker build -t $IMAGE_NAME:${{ github.sha }} .
 
-    # - name: Automatic Tagging of Releases
-    #   id: increment-git-tag
-    #   run: |
-    #     bash ./scripts/git_update.sh -v major 
-
 
     - name: Configure Docker Client
       run: |
@@ -54,6 +49,12 @@ jobs:
         docker image tag $IMAGE_NAME:${{ github.sha }}  northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/dhakshina-nine/$IMAGE_NAME:${{ github.sha }}
         docker push northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/dhakshina-nine/$IMAGE_NAME:${{ github.sha }}
 
+    
+    - uses: google-github-actions/get-gke-credentials@fb08709ba27618c31c09e014e1d8364b02e5042e
+      with:
+        cluster_name: ${{ env.GKE_CLUSTER }}
+        location: ${{ env.GKE_ZONE }}
+        credentials: ${{ secrets.ACCESS_KEY }}
 
     - name: Deploy
       run: |
