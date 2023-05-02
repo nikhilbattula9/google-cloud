@@ -1,5 +1,5 @@
 ---
-name: Build/push Image to GCP AR
+name: Build/push Image AR/ Deploy to GKE
 on:
   pull_request:
     branches: 
@@ -9,6 +9,10 @@ env:
   IMAGE_NAME: app
   PROJECT_ID: ${{ secrets.PROJECT_ID }}
   GIT_TAG: 1.0.0
+  GKE_CLUSTER: autopilot-cluster-9   
+  GKE_ZONE: northamerica-northeast2-b 
+  DEPLOYMENT_NAME: app-deploy
+  IMAGE: app
 
 jobs:
   Build-And-Push-Image:
@@ -50,3 +54,8 @@ jobs:
         docker image tag $IMAGE_NAME:${{ github.sha }}  northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/dhakshina-nine/$IMAGE_NAME:${{ github.sha }}
         docker push northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/dhakshina-nine/$IMAGE_NAME:${{ github.sha }}
 
+
+    - name: Deploy
+      run: |
+        sed -i -e 's/GITHUB_SHA/'"$GITHUB_SHA"'/' ${{ github.workspace }}/.github/manifests/deployment.yaml
+        kubectl apply -f ${{ github.workspace }}/.github/manifests/deployment.yaml
