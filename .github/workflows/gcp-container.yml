@@ -52,7 +52,7 @@ jobs:
 
     - name: Get GKE Creds 
       run: |
-      gcloud container clusters get-credentials $GKE_CLUSTER --region $GKE_ZONE --project $PROJECT_NAME
+        gcloud container clusters get-credentials $GKE_CLUSTER --region $GKE_ZONE --project $PROJECT_NAME
 
     - name: Deploy
       run: |
