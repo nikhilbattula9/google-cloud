@@ -76,7 +76,10 @@ spec:
     - host: app.com
       http:
         paths:
-          - path: /
-            backend:
-              serviceName: python-app-service
-              servicePort: 8080
+        - backend:
+            service:
+              name: python-app-service
+              port: 
+                number: 8080
+            path: /
+            pathType: ImplementationSpecific
