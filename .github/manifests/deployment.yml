@@ -16,7 +16,7 @@ spec:
    spec:
      containers:
        - name: python-app-hello-world
-         image: gcr.io/sapient-cycle-384918/app:GITHUB_SHA
+         image: gcr.io/sapient-cycle-384918/python-app:GITHUB_SHA
          imagePullPolicy: Always
          ports:
            - containerPort: 8080
@@ -31,7 +31,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: app-service
+  name: python-app-service
   labels:
     app: python-app
 spec:
@@ -54,12 +54,12 @@ metadata:
       more_set_headers "X-Content-Type-Options: nosniff";
 spec:
   rules:
-    - host: nikhil.gke.com
+    - host: microservices.com
       http:
         paths:
         - backend:
             service:
-              name: app-service
+              name: python-app-service
               port: 
                 number: 8080
           path: /
