@@ -57,8 +57,8 @@ jobs:
     - id: 'get-credentials'
       uses: 'google-github-actions/get-gke-credentials@v1'
       with:
-        cluster_name: 'ap-cluster-1'
-        location: 'us-central1'
+        cluster_name: 'cluster-1'
+        location: 'us-central1-c'
 
     - name: Deploy
       run: |
