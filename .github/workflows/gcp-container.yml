@@ -1,67 +1,67 @@
----
-name: Build/push Image AR/ Deploy to GKE
-on:
-  pull_request:
-    branches: 
-      - main 
-    paths: ['azure/']
+# ---
+# name: Build/push Image AR/ Deploy to GKE
+# on:
+#   pull_request:
+#     branches: 
+#       - main 
+#     paths: ['azure/']
 
-env:
-  IMAGE_NAME: app
-  PROJECT_ID: ${{ secrets.PROJECT_ID }}
-  # GIT_TAG: 1.0.0
-  GKE_CLUSTER: autopilot-cluster-9   
-  GKE_ZONE: northamerica-northeast2
-  DEPLOYMENT_NAME: app-deploy
-  IMAGE: app
-  PROJECT_NAME: sapient-cycle-384918
+# env:
+#   IMAGE_NAME: app
+#   PROJECT_ID: ${{ secrets.PROJECT_ID }}
+#   # GIT_TAG: 1.0.0
+#   GKE_CLUSTER: autopilot-cluster-9   
+#   GKE_ZONE: northamerica-northeast2
+#   DEPLOYMENT_NAME: app-deploy
+#   IMAGE: app
+#   PROJECT_NAME: sapient-cycle-384918
 
-jobs:
-  Build-And-Push-Image:
-    name: Build Image 
-    runs-on: ubuntu-latest
+# jobs:
+#   Build-And-Push-Image:
+#     name: Build Image 
+#     runs-on: ubuntu-latest
 
-    steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
+#     steps:
+#     - name: Checkout Code
+#       uses: actions/checkout@v3
 
-    - uses: 'google-github-actions/auth@v1'
-      with:
-        credentials_json: ${{ secrets.ACCESS_KEY }}
-
-
-    - name: Build Docker Image
-      run: docker build -t $IMAGE_NAME:${{ github.sha }} .
+#     - uses: 'google-github-actions/auth@v1'
+#       with:
+#         credentials_json: ${{ secrets.ACCESS_KEY }}
 
 
-    - name: Configure Docker Client
-      run: |
-        gcloud auth configure-docker --quiet
-        gcloud auth configure-docker  northamerica-northeast2-docker.pkg.dev --quiet
-
-    - name: Push Docker Image to Container Registry (GCR)
-      run: |
-        docker tag $IMAGE_NAME:${{ github.sha }} gcr.io/$PROJECT_ID/$IMAGE_NAME:${{ github.sha }}
-        docker push gcr.io/$PROJECT_ID/$IMAGE_NAME:${{ github.sha }}
+#     - name: Build Docker Image
+#       run: docker build -t $IMAGE_NAME:${{ github.sha }} .
 
 
-    - name: Push Docker Image to Artifact Registry
-      run: |
-        docker images
-        docker image tag $IMAGE_NAME:${{ github.sha }}  northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/dhakshina-nine/$IMAGE_NAME:${{ github.sha }}
-        docker push northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/dhakshina-nine/$IMAGE_NAME:${{ github.sha }}
+#     - name: Configure Docker Client
+#       run: |
+#         gcloud auth configure-docker --quiet
+#         gcloud auth configure-docker  northamerica-northeast2-docker.pkg.dev --quiet
 
-    # - name: Get GKE Creds 
-    #   run: |
-    #     gcloud container clusters get-credentials $GKE_CLUSTER --region $GKE_ZONE --project $PROJECT_NAME
+#     - name: Push Docker Image to Container Registry (GCR)
+#       run: |
+#         docker tag $IMAGE_NAME:${{ github.sha }} gcr.io/$PROJECT_ID/$IMAGE_NAME:${{ github.sha }}
+#         docker push gcr.io/$PROJECT_ID/$IMAGE_NAME:${{ github.sha }}
 
-    - id: 'get-credentials'
-      uses: 'google-github-actions/get-gke-credentials@v1'
-      with:
-        cluster_name: 'cluster-1'
-        location: 'us-central1-c'
 
-    - name: Deploy
-      run: |
-        sed -i -e 's/GITHUB_SHA/${{ github.sha }}/' ${{ github.workspace }}/.github/manifests/deployment.yml
-        kubectl apply -f ${{ github.workspace }}/.github/manifests/deployment.yml
+#     - name: Push Docker Image to Artifact Registry
+#       run: |
+#         docker images
+#         docker image tag $IMAGE_NAME:${{ github.sha }}  northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/dhakshina-nine/$IMAGE_NAME:${{ github.sha }}
+#         docker push northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/dhakshina-nine/$IMAGE_NAME:${{ github.sha }}
+
+#     # - name: Get GKE Creds 
+#     #   run: |
+#     #     gcloud container clusters get-credentials $GKE_CLUSTER --region $GKE_ZONE --project $PROJECT_NAME
+
+#     - id: 'get-credentials'
+#       uses: 'google-github-actions/get-gke-credentials@v1'
+#       with:
+#         cluster_name: 'cluster-1'
+#         location: 'us-central1-c'
+
+#     - name: Deploy
+#       run: |
+#         sed -i -e 's/GITHUB_SHA/${{ github.sha }}/' ${{ github.workspace }}/.github/manifests/deployment.yml
+#         kubectl apply -f ${{ github.workspace }}/.github/manifests/deployment.yml
