@@ -1,0 +1,63 @@
+name: 'Terraform'
+
+on: 
+  pull_request:
+    branches:
+      - main
+    paths: 
+      - 'azure/' 
+
+jobs:
+  terraform:
+    name: 'Azure Terraform'
+    runs-on: ubuntu-latest
+
+
+    defaults:
+      run:
+        shell: bash
+        working-directory: azure/
+
+    steps:
+    # Checking out the repository code to runner
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    # Installing the Terraform CLI 
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.6.4
+
+    # Initialize Terraform
+    - name: Terraform Init
+      id: init
+      env:
+        CLIENT_ID: ${{ secrets.CLIENT_ID }}
+        CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+        TENANT_ID: ${{ secrets.TENANT_ID }}
+        SUB_ID: ${{ secrets.SUB_ID }}
+      run: terraform init 
+
+
+    # terraform plan 
+    - name: Terraform Plan
+      id: plan
+      env:
+        CLIENT_ID: ${{ secrets.CLIENT_ID }}
+        CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+        TENANT_ID: ${{ secrets.TENANT_ID }}
+        SUB_ID: ${{ secrets.SUB_ID }}
+    #   if: github.event_name == 'pull_request'
+      run: terraform plan -no-color
+    
+
+      # On push to main, build or change infrastructure according to Terraform configuration files
+    - name: Terraform Apply
+    #   needs: ["Terraform Plan"]
+      env:
+        CLIENT_ID: ${{ secrets.CLIENT_ID }}
+        CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+        TENANT_ID: ${{ secrets.TENANT_ID }}
+        SUB_ID: ${{ secrets.SUB_ID }}
+      run: terraform apply -auto-approve
