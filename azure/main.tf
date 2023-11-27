@@ -1,3 +1,4 @@
+# resource group
 resource "azurerm_resource_group" "rg" {
   name     = "Azure-09"
   location = "East US"
