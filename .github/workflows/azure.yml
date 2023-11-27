@@ -12,25 +12,24 @@ jobs:
     name: 'Azure Terraform'
     runs-on: ubuntu-latest
 
-    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
-    # Set the working directory to main for the config files
+
     defaults:
       run:
         shell: bash
         working-directory: azure/
 
     steps:
-    # Checkout the repository to the GitHub Actions runner
+    # Checking out the repository code to runner
     - name: Checkout
       uses: actions/checkout@v2
 
-    # Install the preferred version of Terraform CLI 
+    # Installing the Terraform CLI 
     - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
+      uses: hashicorp/setup-terraform@v2
       with:
-        terraform_version: 1.0.10
+        terraform_version: 1.6.4
 
-    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    # Initialize Terraform
     - name: Terraform Init
       id: init
       env:
@@ -41,16 +40,15 @@ jobs:
       run: terraform init 
 
 
-    # Run a terraform plan for pull requests only
+    # terraform plan 
     - name: Terraform Plan
-
       id: plan
       env:
-        CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-        CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-        TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-        SUB_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-      if: github.event_name == 'pull_request'
+        CLIENT_ID: ${{ secrets.CLIENT_ID }}
+        CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+        TENANT_ID: ${{ secrets.TENANT_ID }}
+        SUB_ID: ${{ secrets.SUB_ID }}
+    #   if: github.event_name == 'pull_request'
       run: terraform plan -no-color
     
 
@@ -58,8 +56,8 @@ jobs:
     - name: Terraform Apply
     #   needs: ["Terraform Plan"]
       env:
-        CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-        CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-        TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-        SUB_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+        CLIENT_ID: ${{ secrets.CLIENT_ID }}
+        CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+        TENANT_ID: ${{ secrets.TENANT_ID }}
+        SUB_ID: ${{ secrets.SUB_ID }}
       run: terraform apply -auto-approve
